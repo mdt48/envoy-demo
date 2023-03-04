@@ -2,6 +2,7 @@ from flask import Flask
 from random import randint
 import numpy as np
 from flask import make_response
+import time
 
 # report = pyRAPL.outputs.DataFrameOutput()
 app = Flask(__name__)
@@ -22,6 +23,7 @@ def some_work():
     response = make_response(' Hello World ')
     response.headers['THIS-IS-A-HEADER'] = 'THIS-IS-A-HEADER-VALUE'
     multiply_matrices()
+    time.sleep(2)
     return response
 
 
