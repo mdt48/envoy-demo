@@ -1,0 +1,40 @@
+# flask-app-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-app
+        image: mdt24/thesis:test-app
+        ports:
+        - containerPort: 5000
+        env:
+        - name: FLASK_APP
+          value: "app.py"
+      imagePullSecrets:
+      - name: private-reg-secret
+
+---
+# flask-app-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app
+spec:
+  selector:
+    app: flask-app
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 5000
