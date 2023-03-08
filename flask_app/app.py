@@ -3,7 +3,8 @@ from random import randint
 import numpy as np
 from flask import make_response
 import time
-import os
+import os, requests
+from flask import request, jsonify
 
 # report = pyRAPL.outputs.DataFrameOutput()
 app = Flask(__name__)
@@ -25,13 +26,24 @@ def some_work():
     # response.headers['THIS-IS-A-HEADER'] = 'THIS-IS-A-HEADER-VALUE'
     # multiply_matrices()
 
-    # requests.get('https://127.0.0.1:8010/fib')
-    print('curling')
-    os.system('curl 127.0.0.1:8020/fib')
+    # r = requests.get('http://www.google.com')
+    # print all haeders
+    # print(r.headers)
+    # print()
+    headers = dict(request.headers)
+    id =  headers['X-Request-Id']
+    del headers['X-Request-Id']
+    headers = {}
+    headers['init-req-id'] = id
+    print(headers)
+    response = requests.get('http://127.0.0.1:8020/fib', headers=headers)
+    print(response.headers)
+    # os.system('curl 127.0.0.1:8020/fib')
+    # os.system('curl http://www.google.com/')
     # os.system('curl 
     time.sleep(2)
-    return '200'
-    # return response
+    # return '200'
+    return jsonify(dict(response.headers))
 
 
 if __name__ == "__main__":
