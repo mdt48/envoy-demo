@@ -3,6 +3,7 @@ from random import randint
 import numpy as np
 from flask import make_response
 import time
+import os
 
 # report = pyRAPL.outputs.DataFrameOutput()
 app = Flask(__name__)
@@ -20,11 +21,17 @@ def multiply_matrices():
 
 @app.route('/matrix_ops', methods=['GET', 'POST'])
 def some_work():
-    response = make_response(' Hello World ')
-    response.headers['THIS-IS-A-HEADER'] = 'THIS-IS-A-HEADER-VALUE'
-    multiply_matrices()
+    # response = make_response(' Hello World ')
+    # response.headers['THIS-IS-A-HEADER'] = 'THIS-IS-A-HEADER-VALUE'
+    # multiply_matrices()
+
+    # requests.get('https://127.0.0.1:8010/fib')
+    print('curling')
+    os.system('curl 127.0.0.1:8020/fib')
+    # os.system('curl 
     time.sleep(2)
-    return response
+    return '200'
+    # return response
 
 
 if __name__ == "__main__":
